@@ -31,6 +31,4 @@ public class UserInfo {
     private List<String> models;
     @JsonProperty("attributes")
     private Map<String, List<String>> attributes;
-
-    //    @JsonProperty("preferred_username") String username;
 }

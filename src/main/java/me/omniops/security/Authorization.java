@@ -8,5 +8,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface Authorization {
-    Role[] value() default {};
+    Role[] roles() default {};
+    Modules[] modules() default {};
 }

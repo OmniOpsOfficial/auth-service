@@ -12,9 +12,7 @@ import org.jboss.logging.Logger;
 public class OIDCExceptionMapper implements ExceptionMapper<OIDCException> {
     @Override
     public Response toResponse(OIDCException exception) {
-        // Log the exception details for debugging
        log.error("OIDC exception occurred: {} " , exception.getMessage());
-        // Customize the response
         return Response.status(Response.Status.UNAUTHORIZED)
                 .entity("Token-related error: " + exception.getMessage())
                 .build();
