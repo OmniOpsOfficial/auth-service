@@ -49,7 +49,7 @@ public class SecureRoleFilter implements ContainerRequestFilter {
     }
 
     private List<Modules> getModules() {
-        return Optional.ofNullable(extractModules(resourceInfo.getResourceMethod()))
+      return Optional.ofNullable(extractModules(resourceInfo.getResourceMethod()))
                 .filter(modules -> !modules.isEmpty())
                 .orElseGet(() -> extractModules(resourceInfo.getResourceClass()));
     }
@@ -61,17 +61,22 @@ public class SecureRoleFilter implements ContainerRequestFilter {
     }
 
     private List<Role> extractRoles(AnnotatedElement element) {
-        return Optional.ofNullable(element)
+        List<Role> rol = Optional.ofNullable(element)
                 .map(e -> e.getAnnotation(Authorization.class))
                 .map(auth -> Arrays.asList(auth.roles()))
                 .orElseGet(Collections::emptyList);
+
+        log.warn("Roles: {}", rol);
+        return rol;
     }
 
     private List<Modules> extractModules(AnnotatedElement element) {
-        return Optional.ofNullable(element)
+        List<Modules> val = Optional.ofNullable(element)
                 .map(e -> e.getAnnotation(Authorization.class))
                 .map(auth -> Arrays.asList(auth.modules()))
                 .orElseGet(Collections::emptyList);
+        log.warn("Modules: {}", val);
+        return val;
     }
 
     private String serializeUserInfo(UserInfo userInfo) {

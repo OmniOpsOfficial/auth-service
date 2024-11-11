@@ -23,7 +23,7 @@ public class TokenValidationService {
     }
 
     public Optional<UserInfo> validateTokenAndExtractClaims(List<Role> requiredRoles, List<Modules> requiredModules) {
-        log.debug("Validating token with required roles: {} and modules: {}", requiredRoles, requiredModules);
+        log.warn("Validating token with required roles: {} and modules: {}", requiredRoles, requiredModules);
         TokenCredential credential = securityIdentity.getCredential(TokenCredential.class);
         if (credential == null) {
             log.warn("Token credential is missing.");
@@ -41,7 +41,7 @@ public class TokenValidationService {
             log.warn("Failed to extract user information from token.");
             return Optional.empty();
         }
-        log.debug("Extracted UserInfo: {}", userInfo);
+        log.warn("Extracted UserInfo: {}", userInfo);
         if (isAuthorized(userInfo, requiredRoles, requiredModules)) {
             return Optional.of(userInfo);
         }
