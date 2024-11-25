@@ -56,7 +56,8 @@ public class TokenValidationService {
             String email = getClaimValue(claims, "email");
             String givenName = getClaimValue(claims, "given_name");
             String familyName = getClaimValue(claims, "family_name");
-            List<String> roles = extractJsonArray(claims, "realm_access", "roles");
+//            List<String> roles = extractJsonArray(claims, "realm_access", "roles");
+            List<String> roles = extractJsonArray(claims, "roles");
             List<String> groups = extractJsonArray(claims, "groups");
             List<String> userModules = extractJsonArray(claims, "modules");
             return new UserInfo(userId, username, givenName, familyName, email, roles, groups, userModules, null);
@@ -69,12 +70,12 @@ public class TokenValidationService {
     private boolean isAuthorized(UserInfo userInfo, List<Role> requiredRoles, List<Modules> requiredModules) {
         boolean hasRequiredRoles = hasMatchingRoles(userInfo.getRoles(), requiredRoles);
         boolean hasRequiredModules = hasMatchingModules(userInfo.getModels(), requiredModules);
-        log.debug("User has required roles: {}, required modules: {}", hasRequiredRoles, hasRequiredModules);
+        log.warn("User has required roles: {}, required modules: {}", hasRequiredRoles, hasRequiredModules);
         return hasRequiredRoles && hasRequiredModules;
     }
 
     private boolean hasMatchingRoles(List<String> userRoles, List<Role> requiredRoles) {
-        return requiredRoles.stream()
+            return requiredRoles.stream()
                 .map(role -> role.name().toLowerCase())
                 .anyMatch(userRoles.stream().map(String::toLowerCase).collect(Collectors.toSet())::contains);
     }
