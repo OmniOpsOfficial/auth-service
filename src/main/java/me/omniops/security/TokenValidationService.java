@@ -6,6 +6,7 @@ import io.quarkus.security.identity.SecurityIdentity;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,7 @@ public class TokenValidationService {
 
     private final SecurityIdentity securityIdentity;
 
+    @Inject
     public TokenValidationService(SecurityIdentity securityIdentity) {
         this.securityIdentity = securityIdentity;
     }
