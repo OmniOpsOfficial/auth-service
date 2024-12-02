@@ -44,6 +44,7 @@ public class TokenValidationService {
             return Optional.empty();
         }
         log.warn("Extracted UserInfo: {}", userInfo);
+
         if (isAuthorized(userInfo, requiredRoles, requiredModules)) {
             return Optional.of(userInfo);
         }

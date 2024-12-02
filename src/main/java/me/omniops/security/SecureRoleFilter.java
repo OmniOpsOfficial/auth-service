@@ -30,7 +30,11 @@ public class SecureRoleFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) {
         log.debug("Start Security filter...");
+        if(isPublicApi()){
+            return;
+        }
         try {
+
             Optional<UserInfo> userInfoOpt = tokenValidationService.validateTokenAndExtractClaims(getRoles(), getModules());
             if (userInfoOpt.isEmpty()) {
                 log.warn("Unauthorized access: Missing or invalid roles/modules");
@@ -46,6 +50,12 @@ public class SecureRoleFilter implements ContainerRequestFilter {
             log.error("Token validation failed due to unexpected error: {}", e.getMessage(), e);
             abortRequest(requestContext, Response.Status.UNAUTHORIZED, "Token validation failed");
         }
+    }
+
+    private boolean isPublicApi() {
+        // Check if the method is public; fallback to the class-level annotation if not present.
+        return Optional.ofNullable(extractIsPublic(resourceInfo.getResourceMethod()))
+                .orElseGet(() -> extractIsPublic(resourceInfo.getResourceClass()));
     }
 
     private List<Modules> getModules() {
@@ -69,6 +79,21 @@ public class SecureRoleFilter implements ContainerRequestFilter {
         log.warn("Roles: {}", rol);
         return rol;
     }
+
+
+    private Boolean extractIsPublic(AnnotatedElement element) {
+        Authorization authorization = element.getAnnotation(Authorization.class);
+        return authorization != null && authorization.isPublic();
+    }
+//    private Boolean extractIsPublic(AnnotatedElement element) {
+//
+//        return element.getAnnotation(Authorization.class).isPublic();
+////         return Optional.ofNullable(element)
+////                .map(e -> e.getAnnotation(Authorization.class))
+////                .map(auth -> List.of(auth.isPublic()))
+////                .orElseGet(Collections::emptyList);
+//
+//    }
 
     private List<Modules> extractModules(AnnotatedElement element) {
         List<Modules> val = Optional.ofNullable(element)

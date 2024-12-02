@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface Authorization {
     Role[] roles() default {};
     Modules[] modules() default {};
+    boolean isPublic() default false;
 }
