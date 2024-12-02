@@ -11,4 +11,5 @@ public @interface Authorization {
     Role[] roles() default {};
     Modules[] modules() default {};
     boolean isPublic() default false;
+    Services[] services() default {};
 }
