@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.omniops.security</groupId>
   <artifactId>auth-service</artifactId>
-  <version>1.6</version>
+  <version>1.14</version>
   <build>
     <sourceDirectory>/home/ajweh/IdeaProjects/auth-service/src/main/java</sourceDirectory>
     <scriptSourceDirectory>/home/ajweh/IdeaProjects/auth-service/src/main/scripts</scriptSourceDirectory>
@@ -21,7 +21,7 @@
       </testResource>
     </testResources>
     <directory>/home/ajweh/IdeaProjects/auth-service/target</directory>
-    <finalName>auth-service-1.6</finalName>
+    <finalName>auth-service-1.14</finalName>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -71,6 +71,9 @@
             </goals>
             <configuration>
               <parameters>true</parameters>
+              <source>21</source>
+              <target>21</target>
+              <release>21</release>
             </configuration>
           </execution>
           <execution>
@@ -81,11 +84,17 @@
             </goals>
             <configuration>
               <parameters>true</parameters>
+              <source>21</source>
+              <target>21</target>
+              <release>21</release>
             </configuration>
           </execution>
         </executions>
         <configuration>
           <parameters>true</parameters>
+          <source>21</source>
+          <target>21</target>
+          <release>21</release>
         </configuration>
       </plugin>
       <plugin>
@@ -124,7 +133,7 @@
             </goals>
             <configuration>
               <systemPropertyVariables>
-                <native.image.path>/home/ajweh/IdeaProjects/auth-service/target/auth-service-1.6-runner</native.image.path>
+                <native.image.path>/home/ajweh/IdeaProjects/auth-service/target/auth-service-1.14-runner</native.image.path>
                 <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                 <maven.home>/usr/share/maven</maven.home>
               </systemPropertyVariables>
@@ -133,7 +142,7 @@
         </executions>
         <configuration>
           <systemPropertyVariables>
-            <native.image.path>/home/ajweh/IdeaProjects/auth-service/target/auth-service-1.6-runner</native.image.path>
+            <native.image.path>/home/ajweh/IdeaProjects/auth-service/target/auth-service-1.14-runner</native.image.path>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             <maven.home>/usr/share/maven</maven.home>
           </systemPropertyVariables>
@@ -141,7 +150,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.4.0</version>
+        <version>3.6.0</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -151,8 +160,8 @@
             <configuration>
               <relocations>
                 <relocation>
-                  <pattern>io.quarkus</pattern>
-                  <shadedPattern>com.servicea.shaded.io.quarkus</shadedPattern>
+                  <pattern>io.quarkus.rest.client.reactive</pattern>
+                  <shadedPattern>me.omniops.shaded.io.quarkus.rest.client.reactive</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>
@@ -316,13 +325,15 @@
   </distributionManagement>
   <properties>
     <maven.compiler.release>21</maven.compiler.release>
-    <surefire-plugin.version>3.5.0</surefire-plugin.version>
     <quarkus.platform.version>3.16.4</quarkus.platform.version>
-    <skipITs>true</skipITs>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <compiler-plugin.version>3.13.0</compiler-plugin.version>
+    <surefire-plugin.version>3.5.0</surefire-plugin.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>21</maven.compiler.source>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.target>21</maven.compiler.target>
+    <skipITs>true</skipITs>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
   </properties>
 </project>

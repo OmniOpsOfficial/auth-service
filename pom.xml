@@ -4,14 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.omniops.security</groupId>
     <artifactId>auth-service</artifactId>
-    <version>1.7</version>
+    <version>1.6</version>
     <packaging>jar</packaging>
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -42,29 +40,26 @@
 
 
     <dependencies>
-        <!-- OIDC support -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-oidc</artifactId>
         </dependency>
 
-        <!-- Keycloak Admin Client -->
-       <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-keycloak-admin-rest-client</artifactId>
-        </dependency>
-
-        <!-- REST and Jackson -->
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-rest-client-jackson</artifactId>
+            <artifactId>quarkus-keycloak-admin-resteasy-client</artifactId>
         </dependency>
 
-        <!-- Lombok -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-resteasy</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -72,10 +67,25 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Dependency Injection -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-junit5</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jboss.slf4j</groupId>
+            <artifactId>slf4j-jboss-logmanager</artifactId>
         </dependency>
     </dependencies>
 
@@ -102,9 +112,6 @@
                 <version>${compiler-plugin.version}</version>
                 <configuration>
                     <parameters>true</parameters>
-                    <source>21</source>
-                    <target>21</target>
-                    <release>21</release>
                 </configuration>
             </plugin>
             <plugin>
@@ -137,32 +144,6 @@
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <shadedArtifactAttached>false</shadedArtifactAttached>
-                    <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                            <manifestEntries>
-                                <Main-Class>com.your.MainClass</Main-Class>
-                            </manifestEntries>
-                        </transformer>
-                    </transformers>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 

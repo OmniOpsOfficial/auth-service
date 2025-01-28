@@ -16,6 +16,11 @@ public class UserService extends KeycloakConnection {
         return getRealmConnection().users().get(userId).toRepresentation().getEmail();
     }
 
+    public UserRepresentation getUserByIdAsObject(String userId) {
+        return getRealmConnection().users().get(userId).toRepresentation();
+    }
+
+
     public List<UserInfo> getDetails(Role role){
         return getRealmConnection().roles().get(role.name()).getUserMembers().stream().map(this::toUserInfo).toList();
     }
@@ -38,13 +43,16 @@ public class UserService extends KeycloakConnection {
         validateInputs(userId, templateCode, isSent);
         UserRepresentation user = getRealmConnection().users().get(userId).toRepresentation();
         Map<String, List<String>> attributes = Optional.ofNullable(user.getAttributes()).orElse(new HashMap<>());
-
-        if (attributes.containsKey(templateCode)) {
+        if (!attributes.containsKey(templateCode)) {
             attributes.put(templateCode, Collections.singletonList(String.valueOf(isSent)));
             user.setAttributes(attributes);
             getRealmConnection().users().get(userId).update(user);
             log.info("User updated: {}", user.getId());
         }
+
+//        attributes.forEach((key, value) -> {
+//            System.out.println("Key: " + key + ", Values: " + value);
+//        });
     }
 
     private void validateInputs(String userId, String templateCode, Boolean isSent) {
